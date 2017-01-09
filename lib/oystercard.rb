@@ -22,8 +22,8 @@ MAX_BALANCE = 90.00
   @balance -= fare
   end
 
- def touch_in
-    
+  def touch_in
+    @in_journey = true
   end
 
 end
