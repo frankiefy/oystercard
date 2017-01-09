@@ -23,7 +23,11 @@ describe Oystercard do
   end
 
   it "expects to have a constant - MAX_BALANCE" do
-        expect(Oystercard).to be_const_defined(:MAX_BALANCE)
-      end
+    expect(Oystercard).to be_const_defined(:MAX_BALANCE)
+  end
+
+  it "expects an error if balance exceeds MAX_BALANCE" do
+    expect { subject.top_up(100.00) }.to raise_error(RuntimeError,"Exceeded maximum balance £#{Oystercard::MAX_BALANCE}")
+  end
 
 end
