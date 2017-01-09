@@ -1,6 +1,7 @@
 class Oystercard
 
 MAX_BALANCE = 90.00
+MIN_BALANCE = 1.00
 
  attr_reader :balance, :in_journey
 

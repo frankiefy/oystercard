@@ -62,7 +62,15 @@ describe Oystercard do
     expect(subject.in_journey?).to eq false
   end
 
+  it "expects to have a constant - MIN_BALANCE" do
+    expect(Oystercard).to be_const_defined(:MIN_BALANCE)
+  end
 
+  it {is_expected.to respond_to(:insufficient_funds)}
+
+  it "expects an error when trying to touch-in with insufficient funds" do
+    expect{ (subject.touch_in)}.to raise_error(RuntimeError, "Insufficient funds for this journey")
+  end
 
 
 end
