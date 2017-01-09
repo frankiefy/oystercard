@@ -49,14 +49,20 @@ describe Oystercard do
 
   it "@in_journey is true when method touch_in is called" do
     subject.touch_in
-    expect(subject.in_journey).to eq true
+    expect(subject.in_journey?).to eq true
   end
 
   it {is_expected.to respond_to(:touch_out)}
 
+  it {is_expected.to respond_to(:in_journey?)}
+
   it "@in_journey is false when method touch_out is called" do
+    subject.touch_in
     subject.touch_out
-    expect(subject.in_journey).to eq false
+    expect(subject.in_journey?).to eq false
   end
+
+
+
 
 end
