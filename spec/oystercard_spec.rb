@@ -9,4 +9,8 @@ describe Oystercard do
     expect(subject.balance).to eq 0
   end
 
+  it "can respond to the method top up" do
+    expect(subject).to respond_to (:top_up)
+  end
+
 end
