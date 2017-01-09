@@ -13,4 +13,8 @@ describe Oystercard do
     expect(subject).to respond_to (:top_up)
   end
 
+  it "the method top_up receives one argument" do
+    expect(subject).to respond_to(:top_up).with(1).argument
+  end
+
 end
