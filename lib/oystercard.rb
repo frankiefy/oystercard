@@ -17,4 +17,7 @@ def exceed_max(value)
   (@balance + value) > MAX_BALANCE
 end
 
+def deduct(fare)
+end
+
 end
