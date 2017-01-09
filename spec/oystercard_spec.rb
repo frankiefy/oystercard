@@ -29,16 +29,6 @@ describe Oystercard do
 
   it { is_expected.to respond_to(:exceed_max) }
 
-  it "can respond to a method deduct" do
-    expect(subject).to respond_to(:deduct).with(1).argument
-  end
-
-  it "deducts fare from balance when deduct method is run" do
-    subject.top_up(10.00)
-    subject.deduct(2.80)
-    expect(subject.balance).to eq 7.20
-  end
-
   it {is_expected.to respond_to(:in_journey)}
 
   it "returns 'in use' when card is in journey" do
@@ -77,7 +67,7 @@ describe Oystercard do
   it "deducts minimum fare from balance when touching out" do
     subject.top_up(10.00)
     subject.touch_in
-    expect{subject.touch_out}.to change{subject.balance}.by(1.00)
+    expect{subject.touch_out}.to change{subject.balance}.by(-1.00)
   end
 
 
