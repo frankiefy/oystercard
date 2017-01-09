@@ -18,6 +18,7 @@ def exceed_max(value)
 end
 
 def deduct(fare)
+  @balance -= fare
 end
 
 end

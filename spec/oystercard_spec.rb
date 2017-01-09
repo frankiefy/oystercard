@@ -42,4 +42,6 @@ describe Oystercard do
     expect(subject.balance).to eq 7.20
   end
 
+  it {is_expected.to respond_to(:in_journey?)}
+
 end
