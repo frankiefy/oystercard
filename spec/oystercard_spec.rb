@@ -39,10 +39,16 @@ describe Oystercard do
     expect(subject.balance).to eq 7.20
   end
 
-  it {is_expected.to respond_to(:in_journey?)}
+  it {is_expected.to respond_to(:in_journey)}
 
   it "returns 'in use' when card is in journey" do
-    expect(subject.in_journey?).to eq "in use"
+    expect(subject.in_journey).to eq false
   end
 
+  it {is_expected.to respond_to(:touch_in)}
+
+  it "@in_journey is true when method touch_in is called" do
+    subject.touch_in
+    expect(subject.in_journey).to eq true
+  end
 end
