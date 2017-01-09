@@ -13,12 +13,18 @@ MAX_BALANCE = 90.00
    @balance += value
  end
 
-def exceed_max(value)
+ def exceed_max(value)
   (@balance + value) > MAX_BALANCE
-end
+ end
 
-def deduct(fare)
+ def deduct(fare)
   @balance -= fare
-end
+  end
+
+  def in_journey?
+    "in use"
+  end
+
+
 
 end

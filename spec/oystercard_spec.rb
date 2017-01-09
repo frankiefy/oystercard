@@ -1,17 +1,14 @@
 require 'oystercard'
 
 describe Oystercard do
-  it "checks the oystercard has a balance" do
-    expect(subject).to respond_to(:balance)
-  end
+
+  it {is_expected.to respond_to(:balance)}
 
   it "checks that the Oystercard has a default balance of 0" do
     expect(subject.balance).to eq 0
   end
 
-  it "can respond to the method top up" do
-    expect(subject).to respond_to (:top_up)
-  end
+    it {is_expected.to respond_to(:top_up)}
 
   it "the method top_up receives one argument" do
     expect(subject).to respond_to(:top_up).with(1).argument
@@ -43,5 +40,9 @@ describe Oystercard do
   end
 
   it {is_expected.to respond_to(:in_journey?)}
+
+  it "returns 'in use' when card is in journey" do
+    expect(subject.in_journey?).to eq "in use"
+  end
 
 end
