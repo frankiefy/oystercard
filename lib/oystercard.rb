@@ -24,6 +24,7 @@ MIN_BALANCE = 1.00
  end
 
  def touch_in
+   raise "Insufficient funds for this journey" if insufficient_funds
   @in_journey = true
  end
 
@@ -33,6 +34,10 @@ MIN_BALANCE = 1.00
 
  def in_journey?
    @in_journey
+ end
+
+ def insufficient_funds
+   @balance < MIN_BALANCE
  end
 
 end
