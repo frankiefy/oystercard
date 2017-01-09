@@ -74,5 +74,11 @@ describe Oystercard do
     expect{ (subject.touch_in)}.to raise_error(RuntimeError, "Insufficient funds for this journey")
   end
 
+  it "deducts minimum fare from balance when touching out" do
+    subject.top_up(10.00)
+    subject.touch_in
+    expect{subject.touch_out}.to change{subject.balance}.by(1.00)
+  end
+
 
 end
