@@ -22,4 +22,8 @@ describe Oystercard do
     expect(subject.balance).to eq 5.00
   end
 
+  it "expects to have a constant - MAX_BALANCE" do
+        expect(Oystercard).to be_const_defined(:MAX_BALANCE)
+      end
+
 end
