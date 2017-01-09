@@ -30,4 +30,6 @@ describe Oystercard do
     expect { subject.top_up(100.00) }.to raise_error(RuntimeError,"Exceeded maximum balance £#{Oystercard::MAX_BALANCE}")
   end
 
+  it { is_expected.to respond_to(:exceed_max) }
+
 end
