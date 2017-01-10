@@ -18,13 +18,12 @@ MIN_BALANCE = 1.00
 
  def touch_in(station)
    raise "Insufficient funds for this journey" if insufficient_funds
-   @entry_station = station
-   @in_journey = true
+    @journey_history << {entry:@entry_station, exit: nil} if @entry_station != nil
+    @entry_station = station
  end
 
  def touch_out(station)
    deduct(1.00)
-  @in_journey = false
   @journey_history << {entry: @entry_station, exit: station}
   @entry_station = nil
  end
