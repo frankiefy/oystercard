@@ -92,7 +92,7 @@ describe Oystercard do
   it "Assigns an empty array to journey_history" do
     expect(oystercard).to have_attributes(:journey_history => [])
   end
-
+  
   it "should save journey history in instance variable" do
     oystercard.top_up(25)
     oystercard.touch_in(:station)
