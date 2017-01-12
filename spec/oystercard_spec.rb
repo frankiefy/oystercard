@@ -127,6 +127,7 @@ describe Oystercard do
       it "charges the penalty fare" do
         oystercard.top_up(10)
         oystercard.touch_in(:station)
+
         expect{oystercard.touch_in(:station)}.to change{oystercard.balance}.by(-6.00)
       end
     end

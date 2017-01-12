@@ -30,9 +30,9 @@ MIN_BALANCE = 1.00
     not_touched_in(station)
     touch_out(station)
     puts "PENALTY"
-    deduct(5)
+    deduct(Journey::MIN_PENALTY)
   else
-    deduct(@current_journey.fare)
+    deduct(Journey::MIN_FARE)
     touched_in(station)
   end
  end
