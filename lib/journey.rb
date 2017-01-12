@@ -16,10 +16,10 @@ class Journey
   end
 
   def fare
-    deduct(1.00)
+    1.00
   end
 
   def complete?
-      !!(@entry_station && @exit_station)
+    !!(@entry_station && @exit_station)
   end
 end

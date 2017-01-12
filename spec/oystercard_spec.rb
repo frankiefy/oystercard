@@ -11,10 +11,6 @@ describe Oystercard do
       expect(oystercard).to have_attributes(:journey_history => [])
     end
 
-    it "should assign entry_station as an instance variable" do
-      expect(oystercard).to have_attributes(:entry_station => nil)
-    end
-
     it "expects to have a constant - MIN_BALANCE" do
       expect(Oystercard).to be_const_defined(:MIN_BALANCE)
     end
@@ -49,15 +45,13 @@ describe Oystercard do
     context "user attempts to top_up with more than maximum balance" do
 
       it "raises an error if balance exceeds MAX_BALANCE" do
-        expect { oystercard.top_up(100.00) }.to raise_error(RuntimeError,"Exceeded maximum balance £#{Oystercard::MAX_BALANCE}")
+        expect { oystercard.top_up(100.00) }.to raise_error("Exceeded maximum balance £#{Oystercard::MAX_BALANCE}")
       end
     end
   end
 
-  
-  it { is_expected.to respond_to(:exceed_max) }
 
-  it {is_expected.to respond_to(:in_journey?)}
+
 
   it "returns 'in use' when card is in journey" do
     expect(oystercard.in_journey?).to eq false
@@ -71,21 +65,15 @@ describe Oystercard do
     expect(oystercard.in_journey?).to eq true
   end
 
+
   it {is_expected.to respond_to(:touch_out)}
 
   it {is_expected.to respond_to(:in_journey?)}
 
-  it "@in_journey is false when method touch_out is called" do
-    oystercard.top_up(10.00)
-    oystercard.touch_in(:station)
-    oystercard.touch_out(:station)
-    expect(oystercard.in_journey?).to eq false
-  end
 
-  it {is_expected.to respond_to(:insufficient_funds)}
 
   it "expects an error when trying to touch-in with insufficient funds" do
-    expect{ (oystercard.touch_in(:station))}.to raise_error(RuntimeError, "Insufficient funds for this journey")
+    expect{ (oystercard.touch_in(:station))}.to raise_error("Insufficient funds for this journey")
   end
 
   context "tests when oystercard is in_journey" do
@@ -111,13 +99,38 @@ describe Oystercard do
       oystercard.touch_out(:station)
     end
 
-    it "should re-assign entry_station following touch_out" do
-      expect(oystercard.entry_station).to eq nil
-    end
 
-    it "should save journey history in instance variable" do
+    it "should save journey history as instance variable" do
       expect(oystercard.journey_history).to eq [{entry: :station, exit: :station}]
     end
   end
+
+  describe "edge cases" do
+    context "User failed to touch in" do
+      it "checks that station has been added to journey_history with nil as entry station" do
+        oystercard.top_up(10)
+        oystercard.touch_out(:station)
+        expect( oystercard.journey_history).to include({:entry=>nil, :exit=>:station})
+      end
+      it "charges the penalty fare" do
+        oystercard.top_up(25)
+        expect{oystercard.touch_out(:station)}.to change{oystercard.balance}.by(-6.00)
+      end
+    end
+    context "User failed to touch out" do
+      it "checks that station has been added to journey history with nil as exit station" do
+        oystercard.top_up(10)
+        oystercard.touch_in(:station)
+        oystercard.touch_in(:station)
+        expect( oystercard.journey_history).to include({:entry=>:station, :exit=>nil})
+      end
+      it "charges the penalty fare" do
+        oystercard.top_up(10)
+        oystercard.touch_in(:station)
+        expect{oystercard.touch_in(:station)}.to change{oystercard.balance}.by(-6.00)
+      end
+    end
+  end
+
 
 end
