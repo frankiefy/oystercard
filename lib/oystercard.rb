@@ -7,8 +7,8 @@ MIN_BALANCE = 1.00
 
  def initialize
    @balance = 0.00
-   @entry_station = nil
    @journey_history =[]
+   @current_journey = nil
  end
 
  def top_up(value)
@@ -18,14 +18,21 @@ MIN_BALANCE = 1.00
 
  def touch_in(station)
    raise "Insufficient funds for this journey" if insufficient_funds
+   @current_journey = Journey.new(station)
     @journey_history << {entry:@entry_station, exit: nil} if @entry_station != nil
     @entry_station = station
  end
 
  def touch_out(station)
-   deduct(1.00)
-  @journey_history << {entry: @entry_station, exit: station}
-  @entry_station = nil
+  if  @current_journey == nil
+    @current_journey = Journey.new
+    @current_journey.finish(station)
+    touch_out(station)
+  else
+    @journey_history << {entry: @current_journey.entry_station, exit: station}
+    @current_journey.finish(station)
+    @current_journey = nil
+  end
  end
 
  def in_journey?
