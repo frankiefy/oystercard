@@ -25,13 +25,10 @@ MIN_BALANCE = 1.00
 
  def touch_out(station)
   if  @current_journey == nil
-    @current_journey = Journey.new
-    @current_journey.finish(station)
+    not_touched_in(station)
     touch_out(station)
   else
-    @journey_history << {entry: @current_journey.entry_station, exit: station}
-    @current_journey.finish(station)
-    @current_journey = nil
+    touched_in(station)
   end
  end
 
@@ -45,6 +42,17 @@ MIN_BALANCE = 1.00
 
  def exceed_max(value)
   (@balance + value) > MAX_BALANCE
+ end
+
+ def not_touched_in(station)
+   @current_journey = Journey.new
+   @current_journey.finish(station)
+ end
+
+ def touched_in(station)
+   @journey_history << {entry: @current_journey.entry_station, exit: station}
+   @current_journey.finish(station)
+   @current_journey = nil
  end
 
 private
