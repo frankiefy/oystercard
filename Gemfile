@@ -7,4 +7,6 @@ group :development, :test do
   gem "rspec"
 end
 
-# gem "rails"
+gem 'pry'
+gem 'makersinit'
+'makersinit'
