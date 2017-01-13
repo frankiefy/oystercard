@@ -1,14 +1,16 @@
+require './lib/journey_log'
 class Oystercard
 
 MAX_BALANCE = 90.00
 MIN_BALANCE = 1.00
 
- attr_reader :balance, :deduct, :fare, :entry_station, :journey_history
+ attr_reader :balance, :deduct, :fare, :entry_station, :journey_history, :journey_log1
 
  def initialize
    @balance = 0.00
    @journey_history =[]
    @current_journey = nil
+   @journey_log1 = JourneyLog.new
  end
 
  def top_up(value)
@@ -18,23 +20,14 @@ MIN_BALANCE = 1.00
 
  def touch_in(station)
    raise "Insufficient funds for this journey" if insufficient_funds
-   @current_journey = Journey.new(station)
-   deduct(6) if @entry_station != nil
-   @journey_history << {entry:@entry_station, exit: nil} if @entry_station != nil
-
-   @entry_station = station
+   @journey_log1.start_journey(station)
+   deduct(6) if journey_log1.penalty == true
  end
 
  def touch_out(station)
-  if  @current_journey == nil
-    not_touched_in(station)
-    touch_out(station)
-    puts "PENALTY"
-    deduct(Journey::MIN_PENALTY)
-  else
-    deduct(Journey::MIN_FARE)
-    touched_in(station)
-  end
+    journey_log1.finish_journey(station)
+    deduct(1) if journey_log1.penalty == false
+    deduct(6) if journey_log1.penalty == true
  end
 
  def in_journey?
@@ -46,9 +39,11 @@ MIN_BALANCE = 1.00
 
 private
 
- def deduct(fare)
+
+def deduct(fare)
   @balance -= fare
- end
+end
+
 
  def insufficient_funds
    @balance < MIN_BALANCE

@@ -16,9 +16,7 @@ class Journey
     @exit_station = station
   end
 
-  def fare
-    MIN_FARE
-  end
+  
 
   def complete?
     !!(@entry_station && @exit_station)

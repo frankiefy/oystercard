@@ -79,7 +79,7 @@ describe Oystercard do
   context "tests when oystercard is in_journey" do
     before(:each) do
       oystercard.top_up(25)
-      oystercard.touch_in(:station)
+      oystercard.touch_in(nil)
     end
 
     it "should re-assign entry_station following touch_in" do
